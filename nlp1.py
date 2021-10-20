@@ -1,7 +1,7 @@
 from textblob import TextBlob
 
 text = "Today is a beautiful day. Tomorrow looks like bad weather."
-
+'''
 # uses default analyzer (native analyser)
 blob = TextBlob(text)
 
@@ -52,3 +52,66 @@ chinese = blob.translate(to = 'zh')
 print(chinese)
 # translates back to english
 print(chinese.translate())
+
+'''
+# SINGULAR AND PLURAL WORDS
+
+from textblob import Word
+
+# plural
+index = Word('index')
+print(index.pluralize())
+
+# singular
+cacti = Word('cacti')
+print(cacti.singularize())
+
+# wordlist
+animals = TextBlob('dog cat fish bird').words
+print(animals.pluralize())
+
+
+# SPELL CHECK AND CORRECTION
+
+word = Word('theyr')
+
+# spell check returns options for correction and percentage confidence
+print(word.spellcheck())
+# if you do not specify correction, it will pick the option with the highest confidence
+print(word.correct())
+
+
+# NORMALIZATION
+
+word1 = Word("studies")
+word2 = Word("varieties")
+
+# stem - takes the stem of the word (not always accurate)
+print(word1.stem())
+print(word2.stem())
+
+#lemmatize - gives us the singular form of the words
+print(word1.lemmatize())
+print(word2.lemmatize())
+
+
+# DEFINITION, SYNONYM, ANTONYM from WordNet
+
+happy = Word("happy")
+
+# definition - returns a list of definitions
+print(happy.definitions)
+
+# synonym - prints a set of synonyms
+print(happy.synsets)
+# how to get the words as text
+for s in happy.synsets: 
+    for l in s.lemmas():
+        print(l.name())
+# grab directly
+synonym = happy.synsets[1].lemmas()[0].name()
+print(synonym)
+
+# antonym
+antonym = happy.synsets[0].lemmas()[0].antonyms()[0].name()
+print(antonym)
